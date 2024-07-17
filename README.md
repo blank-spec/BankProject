@@ -33,7 +33,7 @@ cd BankProject
 
 3. Compile the project:
 ```bash
-g++ -o Bank main.cpp
+g++ -o Bank Main.cpp
 ```
 
 ### Usage
