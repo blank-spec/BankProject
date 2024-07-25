@@ -18,7 +18,7 @@ public:
 		while (!Bank.checkPassword() || !Bank.chekLogin()) {
 			cout << "Incorrect password or login, please try again" << endl;
 			++tries;
-			if (tries == 0) {
+			if (tries == 5) {
 				exit(0);
 				continue;
 			}
