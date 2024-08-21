@@ -2,8 +2,8 @@
 using namespace std;
 
 int main() {
-	Interface inter;
-	inter.showInterface();
+	Interface ui;
+	ui.showInterface();
 
 	return 0;
 }
