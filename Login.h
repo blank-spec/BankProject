@@ -6,12 +6,12 @@ using namespace std;
 // That class manages login
 class Login {
 private:
-    const string fileName = "Loggin.txt";
+    const string fileName = "Login.txt";
     string login;
 
     // That function make login, if it doesn't exists
     void createLogin() {
-        cout << "You need to create a new loggin: ";
+        cout << "You need to create a new login: ";
         cin >> login;
         FileManager::writeLine(fileName, login);
     }
@@ -38,7 +38,7 @@ public:
         }
 
         string enteredLogin;
-        cout << "Enter your loggin: ";
+        cout << "Enter your login: ";
         cin >> enteredLogin;
         return enteredLogin == login;
     }
