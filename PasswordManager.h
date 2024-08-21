@@ -72,7 +72,6 @@ public:
         cout << endl;
 
         size_t hashedPassword = hashPass(enteredPassword);
-
         
         if (to_string(hashedPassword) == password) {
             cout << "Correct" << endl;
