@@ -40,15 +40,15 @@ public:
     // The function of adding content to a file, for example, transaction history.
     template <typename T>
     static bool addLine(const std::string& fileName, T& content, const std::string& message) {
-        ofstream file(fileName, std::ios::app);
+        std::ofstream file(fileName, std::ios::app);
         if (!file.is_open()) {
             return false;
         }
 
         Time timeObject;
-        string time = timeObject.getTime();
+        std::string time = timeObject.getTime();
 
-        stringstream ss;
+        std::stringstream ss;
         ss << time << " " << message << " " << content;
 
         file << ss.str() << std::endl;
