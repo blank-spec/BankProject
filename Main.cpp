@@ -1,9 +1,9 @@
-#include "Interface.h"
+#include "src/Interface.h"
 using namespace std;
 
 int main() {
-	Interface ui;
-	ui.showInterface();
+  Interface ui;
+  ui.showInterface();
 
-	return 0;
+  return 0;
 }
