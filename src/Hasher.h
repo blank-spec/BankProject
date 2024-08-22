@@ -22,6 +22,25 @@ class Hasher {
     return dis(gen);
   }
 
+  static string insertSaltBetweenChars(const string& password, const string& salt) {
+    string result;
+    size_t saltLength = salt.length();
+
+    for (size_t i = 0; i < password.length(); ++i) {
+      result += password[i];
+      if (i < saltLength) {
+        result += salt[i];
+      }
+    }
+
+    // Append any remaining salt
+    if (saltLength > password.length()) {
+      result += salt.substr(password.length());
+    }
+
+    return result;
+  }
+
  public:
   // Generates a random salt string of length SIZESALT.
   static string generateSalt() {
@@ -36,14 +55,14 @@ class Hasher {
   struct HashData {
     // Hashes the input data combined with the salt.
     string operator()(const string& data, const string& salt) {
-      string saltedData = salt + data;
+      string saltedData = insertSaltBetweenChars(data, salt);
       return to_string(hash<string>{}(saltedData));
     }
   };
 };
 
 // Define the characters used for generating the salt
-const string Hasher::CHARACTERS =
+inline const string Hasher::CHARACTERS =
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "0123456789"

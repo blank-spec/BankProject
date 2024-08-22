@@ -28,6 +28,7 @@ class PasswordManager {
     string hashedPassword = hasher(password, salt);
     string storedPassword = format("{}:{}", salt, hashedPassword);
     FileManager::writeLine(passwordFile, storedPassword);
+    password = hashedPassword;
   }
 
  public:
@@ -74,7 +75,6 @@ class PasswordManager {
       cout << "Correct" << endl;
       return true;
     }
-    cout << hashedEnteredPassword << endl;
     return false;
   }
 };
