@@ -40,14 +40,14 @@ class Interface {
           Bank.takeAway();
           break;
         case '4':
-          if (Bank.checkTransaction() == true) {
+          if (Bank.checkTransaction()) {
             cerr << "Incorrect" << endl;
           } else {
             Bank.showTransactionHistory();
           }
           break;
         case '5':
-          if (Bank.checkTransaction() == true) {
+          if (Bank.checkTransaction()) {
             cerr << "Incorrect" << endl;
           } else {
             Bank.clearTransactionHistory();
