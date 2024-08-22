@@ -5,7 +5,6 @@
 #include <sstream>
 #include <string>
 
-
 using namespace std;
 
 // Class to get current time

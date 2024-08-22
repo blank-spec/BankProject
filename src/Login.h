@@ -8,7 +8,7 @@ using namespace std;
 // That class manages login
 class Login {
  private:
-  const string fileName = "Credit.txt";
+  const string fileName = "Loggin.txt";
   string login;
 
   // That function make login, if it doesn't exists
@@ -27,10 +27,7 @@ class Login {
   }
   // That function is defined if login exists
   bool loginIsExist() {
-    if (login.empty() || login == " ") {
-      return false;
-    }
-    return true;
+    return !login.empty() && login != " ";
   }
 
   // That function check user enter the valid login

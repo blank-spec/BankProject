@@ -9,8 +9,10 @@
 using namespace std;
 
 class Hasher {
- private:
+ public:
   static const int SIZESALT = 16;  ///< Length of the salt.
+
+ private:
   static const string CHARACTERS;  ///< Characters used to generate the salt.
 
   // Generates a random index to pick a character for the salt.

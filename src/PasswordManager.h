@@ -26,7 +26,7 @@ class PasswordManager {
     cin >> password;
     salt = Hasher::generateSalt();
     string hashedPassword = hasher(password, salt);
-    string storedPassword = format("{}:{}", salt, hashedPassword);
+    string storedPassword = format("{}{}", salt, hashedPassword);
     FileManager::writeLine(passwordFile, storedPassword);
     password = hashedPassword;
   }
@@ -35,9 +35,8 @@ class PasswordManager {
   // Constructor that defines the password
   PasswordManager() {
     if (FileManager::readFile(passwordFile, password)) {
-      size_t separator = password.find(':');
-      salt = password.substr(0, separator);
-      password = password.substr(separator + 1);
+      salt = password.substr(0, Hasher::SIZESALT);
+      password = password.substr(Hasher::SIZESALT);
     } else {
       makePassword();
     }
