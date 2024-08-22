@@ -33,7 +33,7 @@ class Hasher {
     return salt;
   }
 
-  struct HashDate {
+  struct HashData {
     // Hashes the input data combined with the salt.
     string operator()(const string& data, const string& salt) {
       string saltedData = salt + data;

@@ -18,7 +18,7 @@ class PasswordManager {
   string password;
   string salt;
   const string passwordFile = "Password.txt";
-  Hasher::HashDate hasher;
+  Hasher::HashData hasher;
 
   // That function make password, if it doesn't exists
   void makePassword() {
