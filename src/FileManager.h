@@ -34,6 +34,7 @@ class FileManager {
       return false;
     }
     file << content << endl;
+    file.flush();
     file.close();
     return true;
   }

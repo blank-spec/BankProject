@@ -17,7 +17,7 @@ class PasswordManager {
  private:
   string password;
   string salt;
-  const string passwordFile = "Password.txt";
+  const string passwordFile = "C:/Bank/Password.txt";
   Hasher::HashData hasher;
 
   // That function make password, if it doesn't exists
