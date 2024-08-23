@@ -40,19 +40,19 @@ class FileManager {
 
   // The function of adding content to a file, for example, transaction history.
   template <typename T>
-  static bool addLine(const std::string& fileName, T& content, const std::string& message) {
-    std::ofstream file(fileName, std::ios::app);
+  static bool addLine(const string& fileName, T& content, const string& message) {
+    ofstream file(fileName, ios::app);
     if (!file.is_open()) {
       return false;
     }
 
     Time timeObject;
-    std::string time = timeObject.getTime();
+    string time = timeObject.getTime();
 
-    std::stringstream ss;
+    stringstream ss;
     ss << time << " " << message << " " << content;
 
-    file << ss.str() << std::endl;
+    file << ss.str() << endl;
     file.close();
     return true;
   }
