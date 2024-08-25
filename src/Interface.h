@@ -1,24 +1,28 @@
 #pragma once
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 
 #include "BankAccount.h"
+#include "BankComponents.h"
 #include "FileManager.h"
 
 using namespace std;
 // Class manages inteface
 class Interface {
  private:
-  BankAccount Bank;
+  unique_ptr<IBankAccount> bank;
 
  public:
+  Interface(unique_ptr<IBankAccount> bank) : bank(move(bank)) {}
   void showInterface() {
     char choice;
     int tries = 0;
     bool running = true;
 
-    while (!Bank.checkPassword() || !Bank.checkLogin()) {
+    while (!bank->checkLogin() || !bank->checkPassword()) {
       cout << "Incorrect password or login, please try again" << endl;
       ++tries;
       if (tries == 5) {
@@ -28,38 +32,38 @@ class Interface {
     }
 
     while (running) {
-      Bank.showMenu();
+      bank->showMenu();
       cin >> choice;
 
       switch (choice) {
         case '1':
-          Bank.showBalance();
+          bank->showBalance();
           break;
         case '2':
-          Bank.addBalance();
+          bank->addBalance();
           break;
         case '3':
-          Bank.takeAway();
+          bank->takeAway();
           break;
         case '4':
-          if (Bank.checkTransaction()) {
+          if (bank->checkTransaction()) {
             cerr << "Unable to show transaction history." << endl;
             break;
           }
-          Bank.showTransactionHistory();
+          bank->showTransactionHistory();
           break;
         case '5':
-          if (Bank.checkTransaction()) {
+          if (bank->checkTransaction()) {
             cerr << "Unable to clear transaction history." << endl;
             break;
           }
-          Bank.clearTransactionHistory();
+          bank->clearTransactionHistory();
           break;
         case '7':
           running = false;
           break;
         default:
-          Bank.showBalance();
+          bank->showBalance();
           break;
       }
     }

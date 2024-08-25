@@ -1,12 +1,13 @@
 #pragma once
 #include <iostream>
 
+#include "BankComponents.h"
 #include "FileManager.h"
 
 using namespace std;
 
 // That class manages login
-class Login {
+class Login : public ILogin {
  private:
   const string FILENAME = "Loggin.txt";
   string login;
@@ -15,7 +16,7 @@ class Login {
   void createLogin() {
     cout << "You need to create a new login: ";
     cin >> login;
-    FileManager::writeLine(FILENAME, login);
+    FileManager::writeFile(FILENAME, login);
   }
 
  public:
@@ -26,12 +27,10 @@ class Login {
     }
   }
   // That function is defined if login exists
-  bool loginIsExist() {
-    return !login.empty() && login != " ";
-  }
+  bool loginIsExist() const override { return !login.empty() && login != " "; }
 
   // That function check user enter the valid login
-  bool checkLogin() {
+  bool checkLogin() override {
     if (!loginIsExist()) {
       createLogin();
     }

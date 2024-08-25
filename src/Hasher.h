@@ -24,7 +24,8 @@ class Hasher {
     return dis(gen);
   }
 
-  static string insertSaltBetweenChars(const string& password, const string& salt) {
+  static string insertSaltBetweenChars(const string& password,
+                                       const string& salt) {
     string result;
     size_t saltLength = salt.length();
     size_t minLength = min(password.length(), saltLength);

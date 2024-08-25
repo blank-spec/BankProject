@@ -1,10 +1,12 @@
 #pragma once
+#include <format>
 #include <string>
 
+#include "BankComponents.h"
 #include "FileManager.h"
 
 // That class is emplements main functional
-class Transaction {
+class Transaction : public ITransactions {
  private:
   double balance;
   const string TRANSACTIONFILE = "Transactions.txt";
@@ -13,10 +15,21 @@ class Transaction {
   string warning;
   FileManager manager;
 
+  double getValidAmount(const string& prompt) const {
+    double amount;
+    cout << prompt;
+    while (!(cin >> amount) || amount < 0) {
+      cout << "Please enter a valid number" << endl;
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      cout << prompt;
+    }
+    return amount;
+  }
+
  public:
   // Constructor that defines the balance
-  Transaction()
-      : balance(0), transaction(" ") {
+  Transaction() : balance(0), transaction(" ") {
     manager.readFile(BALANCEFILE, balance);
 
     if (balance < 0) {
@@ -25,56 +38,43 @@ class Transaction {
   }
 
   // Function for add to balance, also records transaction history
-  void addBalance() {
-    double amount;
-    cout << "How much would you add to the balance? ";
-
-    while (!(cin >> amount) || amount < 0) {
-      cout << "Please enter a valid number" << endl;
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
+  void addBalance() override {
+    double amount = getValidAmount("How much would you add to the balance? ");
     balance += amount;
-    FileManager::writeLine(BALANCEFILE, balance);
-    FileManager::addLine(TRANSACTIONFILE, amount, "You added to the balance: ");
+    FileManager::writeFile(BALANCEFILE, balance);
+    FileManager::writeFile(
+        TRANSACTIONFILE, format("You added to the balance: {}", amount), true);
   }
 
   // Function for take away balance, also records transaction history
-  void takeAway() {
-    double amount;
-    cout << "How much would you take away from the balance? ";
-
-    while (!(cin >> amount) || amount < 0) {
-      cout << "Please enter a valid number" << endl;
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
-    balance -= amount;
-
+  void takeAway() override {
+    double amount =
+        getValidAmount("How much would you take away from the balance? ");
     if (amount > balance) {
       cout << "Insufficient balance!" << endl;
       return;
     }
-
-    FileManager::writeLine(BALANCEFILE, balance);
-    FileManager::addLine(TRANSACTIONFILE, amount, "Taken away from balance: ");
+    balance -= amount;
+    FileManager::writeFile(BALANCEFILE, balance);
+    FileManager::writeFile(TRANSACTIONFILE,
+                           format("Taken away from balance: {}", amount), true);
   }
   // Function for show balance
-  void showBalance() const {
-    cout << "Balance: " << balance << endl;
-  }
+  void showBalance() const override { cout << "Balance: " << balance << endl; }
 
   // Function for show transaction history
-  void showTransactionHistory() {
+  void showTransactionHistory() const override {
     FileManager::readAllFile(TRANSACTIONFILE);
   }
 
   // Function for clear transaction history
-  void clearTransactionHistory() {
-    FileManager::deleteContentInFile(TRANSACTIONFILE, "Do you wont to delete transaction history? ", "Transaction history clear ");
+  void clearTransactionHistory() const override {
+    FileManager::deleteContentInFile(
+        TRANSACTIONFILE, "Do you wont to delete transaction history? ",
+        "Transaction history clear ");
   }
   // Check if transaction file is empty
-  bool hasTransactions() {
+  bool hasTransactions() const override {
     return FileManager::checkContent(TRANSACTIONFILE);
   }
 };

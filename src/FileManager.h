@@ -28,33 +28,11 @@ class FileManager {
 
   // Function to write to or create a file
   template <typename T>
-  static bool writeLine(const string& fileName, const T& content) {
-    ofstream file(fileName);
-    if (!file.is_open()) {
-      return false;
-    }
+  static bool writeFile(const string& fileName, const T& content,
+                        bool append = false) {
+    ofstream file(fileName, append ? ios::app : ios::trunc);
+    if (!file.is_open()) return false;
     file << content << endl;
-    file.flush();
-    file.close();
-    return true;
-  }
-
-  // The function of adding content to a file, for example, transaction history.
-  template <typename T>
-  static bool addLine(const string& fileName, T& content, const string& message) {
-    ofstream file(fileName, ios::app);
-    if (!file.is_open()) {
-      return false;
-    }
-
-    Time timeObject;
-    string time = timeObject.getTime();
-
-    stringstream ss;
-    ss << time << " " << message << " " << content;
-
-    file << ss.str() << endl;
-    file.close();
     return true;
   }
 
@@ -76,7 +54,8 @@ class FileManager {
   }
 
   // Function for clear file
-  static bool deleteContentInFile(const string& fileName, const string& warning, const string& end) {
+  static bool deleteContentInFile(const string& fileName, const string& warning,
+                                  const string& end) {
     ofstream file;
     string userChoice;
 

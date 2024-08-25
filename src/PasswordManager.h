@@ -7,17 +7,18 @@
 #include <iostream>
 #include <string>
 
+#include "BankComponents.h"
 #include "FileManager.h"
 #include "Hasher.h"
 
 using namespace std;
 
 // That class manages password
-class PasswordManager {
+class PasswordManager : public IPassword {
  private:
   string password;
   string salt;
-  const string FILENAME = "C:/Bank/Password.txt";
+  const string FILENAME = "Password.txt";
   Hasher::HashData hasher;
   FileManager manager;
 
@@ -28,7 +29,7 @@ class PasswordManager {
     salt = Hasher::generateSalt();
     string hashedPassword = hasher(password, salt);
     string storedPassword = format("{}{}", salt, hashedPassword);
-    manager.writeLine(FILENAME, storedPassword);
+    manager.writeFile(FILENAME, storedPassword);
     password = hashedPassword;
   }
 
@@ -43,12 +44,12 @@ class PasswordManager {
     }
   }
   // That function is defined if password exists
-  bool passwordIsExist() {
+  bool passwordIsExist() const override {
     return !password.empty() && password != " ";
   }
 
   // That function check user enter the valid password
-  bool checkPassword() {
+  bool checkPassword() override {
     if (!passwordIsExist()) {
       makePassword();
     }

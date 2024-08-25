@@ -1,62 +1,52 @@
 #pragma once
 
+#include <algorithm>
 #include <iostream>
+#include <memory>
 
-#include "FileManager.h"
-#include "Login.h"
-#include "PasswordManager.h"
-#include "Transactions.h"
+#include "BankComponents.h"
 
 using namespace std;
 
 // Main class, projects root
-class BankAccount {
+class BankAccount : public IBankAccount {
  private:
-  PasswordManager passwordManager;
-  Login login;
-  Transaction transaction;
-  FileManager manager;
+  unique_ptr<IPassword> passwordManager;
+  unique_ptr<ILogin> login;
+  unique_ptr<ITransactions> transactions;
 
  public:
-  void addBalance() {
-    transaction.addBalance();
+  BankAccount(unique_ptr<IPassword> p, unique_ptr<ILogin> lg,
+              unique_ptr<ITransactions> tr)
+      : passwordManager(move(p)), login(move(lg)), transactions(move(tr)) {}
+
+  void addBalance() override { transactions->addBalance(); }
+
+  void takeAway() override { transactions->takeAway(); }
+
+  void showBalance() override { transactions->showBalance(); }
+
+  bool checkLogin() override { return login->checkLogin(); }
+
+  bool checkPassword() override { return passwordManager->checkPassword(); }
+
+  void showTransactionHistory() override {
+    transactions->showTransactionHistory();
   }
 
-  void takeAway() {
-    transaction.takeAway();
+  void clearTransactionHistory() override {
+    transactions->clearTransactionHistory();
   }
 
-  void showBalance() {
-    transaction.showBalance();
-  }
+  bool checkTransaction() override { return transactions->hasTransactions(); }
 
-  bool checkLogin() {
-    return login.checkLogin();
-  }
-
-  bool checkPassword() {
-    return passwordManager.checkPassword();
-  }
-
-  void showTransactionHistory() {
-    transaction.showTransactionHistory();
-  }
-
-  void clearTransactionHistory() {
-    transaction.clearTransactionHistory();
-  }
-
-  bool checkTransaction() {
-    return transaction.hasTransactions();
-  }
-
-  void showMenu() {
+  void showMenu() override {
     cout << "Choose the action:" << endl;
     cout << "1 - show the balance" << endl;
     cout << "2 - add to the balance" << endl;
     cout << "3 - take away from the balance" << endl;
 
-    if (!transaction.hasTransactions()) {
+    if (!transactions->hasTransactions()) {
       cout << "4 - show transaction history" << endl;
       cout << "5 - clear transaction history" << endl;
     }
