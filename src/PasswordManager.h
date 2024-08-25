@@ -17,8 +17,9 @@ class PasswordManager {
  private:
   string password;
   string salt;
-  const string passwordFile = "C:/Bank/Password.txt";
+  const string FILENAME = "C:/Bank/Password.txt";
   Hasher::HashData hasher;
+  FileManager manager;
 
   // That function make password, if it doesn't exists
   void makePassword() {
@@ -27,14 +28,14 @@ class PasswordManager {
     salt = Hasher::generateSalt();
     string hashedPassword = hasher(password, salt);
     string storedPassword = format("{}{}", salt, hashedPassword);
-    FileManager::writeLine(passwordFile, storedPassword);
+    manager.writeLine(FILENAME, storedPassword);
     password = hashedPassword;
   }
 
  public:
   // Constructor that defines the password
   PasswordManager() {
-    if (FileManager::readFile(passwordFile, password)) {
+    if (manager.readFile(FILENAME, password)) {
       salt = password.substr(0, Hasher::SIZESALT);
       password = password.substr(Hasher::SIZESALT);
     } else {

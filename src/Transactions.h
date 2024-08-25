@@ -7,18 +7,17 @@
 class Transaction {
  private:
   double balance;
-  const string transactionFile = "Transactions.txt";
-  const string balanceFile = "Balance.txt";
-  FileManager fileManager;
+  const string TRANSACTIONFILE = "Transactions.txt";
+  const string BALANCEFILE = "Balance.txt";
   string transaction;
   string warning;
+  FileManager manager;
 
  public:
   // Constructor that defines the balance
   Transaction()
       : balance(0), transaction(" ") {
-    FileManager::readFile(balanceFile, balance);
-    updateTransaction();
+    manager.readFile(BALANCEFILE, balance);
 
     if (balance < 0) {
       balance = 0;
@@ -36,15 +35,14 @@ class Transaction {
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     balance += amount;
-    FileManager::writeLine(balanceFile, balance);
-    FileManager::addLine(transactionFile, amount, "You added to the balance: ");
-    updateTransaction();
+    FileManager::writeLine(BALANCEFILE, balance);
+    FileManager::addLine(TRANSACTIONFILE, amount, "You added to the balance: ");
   }
 
   // Function for take away balance, also records transaction history
   void takeAway() {
     double amount;
-    cout << "How much you would take away from the the balance? ";
+    cout << "How much would you take away from the balance? ";
 
     while (!(cin >> amount) || amount < 0) {
       cout << "Please enter a valid number" << endl;
@@ -53,13 +51,13 @@ class Transaction {
     }
     balance -= amount;
 
-    if (balance < 0 || amount > balance) {
-      balance = 0;
+    if (amount > balance) {
+      cout << "Insufficient balance!" << endl;
+      return;
     }
 
-    FileManager::writeLine(balanceFile, balance);
-    FileManager::addLine(transactionFile, amount, "You take away balacne: ");
-    updateTransaction();
+    FileManager::writeLine(BALANCEFILE, balance);
+    FileManager::addLine(TRANSACTIONFILE, amount, "Taken away from balance: ");
   }
   // Function for show balance
   void showBalance() const {
@@ -68,16 +66,15 @@ class Transaction {
 
   // Function for show transaction history
   void showTransactionHistory() {
-    fileManager.readAllFile(transactionFile);
+    FileManager::readAllFile(TRANSACTIONFILE);
   }
 
   // Function for clear transaction history
   void clearTransactionHistory() {
-    fileManager.deleteContentInFile(transactionFile, "Do you wont to delete transaction history? ", "Transaction history clear ");
-    updateTransaction();
+    FileManager::deleteContentInFile(TRANSACTIONFILE, "Do you wont to delete transaction history? ", "Transaction history clear ");
   }
   // Check if transaction file is empty
-  bool updateTransaction() {
-    return FileManager::checkContent(transactionFile);
+  bool hasTransactions() {
+    return FileManager::checkContent(TRANSACTIONFILE);
   }
 };

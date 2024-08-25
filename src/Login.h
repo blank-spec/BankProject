@@ -8,20 +8,20 @@ using namespace std;
 // That class manages login
 class Login {
  private:
-  const string fileName = "Loggin.txt";
+  const string FILENAME = "Loggin.txt";
   string login;
 
   // That function make login, if it doesn't exists
   void createLogin() {
     cout << "You need to create a new login: ";
     cin >> login;
-    FileManager::writeLine(fileName, login);
+    FileManager::writeLine(FILENAME, login);
   }
 
  public:
   // Constructor that defines the login
   Login() {
-    if (!FileManager::readFile(fileName, login)) {
+    if (!FileManager::readFile(FILENAME, login)) {
       createLogin();
     }
   }

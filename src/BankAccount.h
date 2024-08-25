@@ -47,7 +47,7 @@ class BankAccount {
   }
 
   bool checkTransaction() {
-    return transaction.updateTransaction();
+    return transaction.hasTransactions();
   }
 
   void showMenu() {
@@ -56,7 +56,7 @@ class BankAccount {
     cout << "2 - add to the balance" << endl;
     cout << "3 - take away from the balance" << endl;
 
-    if (!transaction.updateTransaction()) {
+    if (!transaction.hasTransactions()) {
       cout << "4 - show transaction history" << endl;
       cout << "5 - clear transaction history" << endl;
     }

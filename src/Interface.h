@@ -22,7 +22,8 @@ class Interface {
       cout << "Incorrect password or login, please try again" << endl;
       ++tries;
       if (tries == 5) {
-        exit(0);
+        cout << "Too many failed attempts. Exiting program." << endl;
+        return;
       }
     }
 
@@ -42,14 +43,14 @@ class Interface {
           break;
         case '4':
           if (Bank.checkTransaction()) {
-            cerr << "Incorrect" << endl;
+            cerr << "Unable to show transaction history." << endl;
             break;
           }
           Bank.showTransactionHistory();
           break;
         case '5':
           if (Bank.checkTransaction()) {
-            cerr << "Incorrect" << endl;
+            cerr << "Unable to clear transaction history." << endl;
             break;
           }
           Bank.clearTransactionHistory();

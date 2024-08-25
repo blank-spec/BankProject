@@ -27,16 +27,17 @@ class Hasher {
   static string insertSaltBetweenChars(const string& password, const string& salt) {
     string result;
     size_t saltLength = salt.length();
+    size_t minLength = min(password.length(), saltLength);
 
-    for (size_t i = 0; i < password.length(); ++i) {
+    for (int i = 0; i < minLength; ++i) {
       result += password[i];
-      if (i < saltLength) {
-        result += salt[i];
-      }
+      result += salt[i];
     }
 
     // Append any remaining salt
-    if (saltLength > password.length()) {
+    if (password.length() > saltLength) {
+      result += password.substr(saltLength);
+    } else if (saltLength > password.length()) {
       result += salt.substr(password.length());
     }
 
@@ -47,6 +48,7 @@ class Hasher {
   // Generates a random salt string of length SIZESALT.
   static string generateSalt() {
     string salt;
+    salt.reserve(SIZESALT);
     for (int i = 0; i < SIZESALT; ++i) {
       salt += CHARACTERS[genRandom()];
     }
