@@ -30,6 +30,8 @@ class BankAccount : public IBankAccount {
 
   bool checkPassword() override { return passwordManager->checkPassword(); }
 
+  bool checkTransaction() override { return transactions->hasTransactions(); }
+
   void showTransactionHistory() override {
     transactions->showTransactionHistory();
   }
@@ -37,8 +39,6 @@ class BankAccount : public IBankAccount {
   void clearTransactionHistory() override {
     transactions->clearTransactionHistory();
   }
-
-  bool checkTransaction() override { return transactions->hasTransactions(); }
 
   void showMenu() override {
     cout << "Choose the action:" << endl;
