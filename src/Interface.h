@@ -16,6 +16,7 @@ class Interface {
   void showInterface() {
     char choice;
     int tries = 0;
+    bool running = true;
 
     while (!Bank.checkPassword() || !Bank.checkLogin()) {
       cout << "Incorrect password or login, please try again" << endl;
@@ -25,7 +26,7 @@ class Interface {
       }
     }
 
-    for (;;) {
+    while (running) {
       Bank.showMenu();
       cin >> choice;
 
@@ -42,19 +43,19 @@ class Interface {
         case '4':
           if (Bank.checkTransaction()) {
             cerr << "Incorrect" << endl;
-          } else {
-            Bank.showTransactionHistory();
+            break;
           }
+          Bank.showTransactionHistory();
           break;
         case '5':
           if (Bank.checkTransaction()) {
             cerr << "Incorrect" << endl;
-          } else {
-            Bank.clearTransactionHistory();
+            break;
           }
+          Bank.clearTransactionHistory();
           break;
         case '7':
-          exit(0);
+          running = false;
           break;
         default:
           Bank.showBalance();
