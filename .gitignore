@@ -1,3 +1,7 @@
 out/
 CmakeLists.txt
 CMakePresets.json
+.clang-format
+.clang-tidyy
+.clangd
+a.exe

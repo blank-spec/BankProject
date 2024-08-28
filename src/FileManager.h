@@ -28,8 +28,7 @@ class FileManager {
 
   // Function to write to or create a file
   template <typename T>
-  static bool writeFile(const string& fileName, const T& content,
-                        bool append = false) {
+  static bool writeFile(const string& fileName, const T& content, bool append = false) {
     ofstream file(fileName, append ? ios::app : ios::trunc);
     if (!file.is_open()) return false;
     file << content << endl;
@@ -54,7 +53,8 @@ class FileManager {
   }
 
   // Function for clear file
-  static bool deleteContentInFile(const string& fileName, const string& warning,
+  static bool deleteContentInFile(const string& fileName,
+                                  const string& warning,
                                   const string& end) {
     ofstream file;
     string userChoice;
