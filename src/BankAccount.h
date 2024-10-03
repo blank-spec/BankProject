@@ -18,7 +18,7 @@ class BankAccount : public IBankAccount {
  public:
   BankAccount(unique_ptr<IPassword> p, unique_ptr<ILogin> lg,
               unique_ptr<ITransactions> tr)
-      : passwordManager(move(p)), login(move(lg)), transactions(move(tr)) {}
+      : passwordManager(std::move(p)), login(std::move(lg)), transactions(std::move(tr)) {}
 
   void addBalance() override { transactions->addBalance(); }
 

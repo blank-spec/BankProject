@@ -3,17 +3,19 @@
 #include <string>
 
 #include "BankComponents.h"
+#include "CurrentTime.h"
 #include "FileManager.h"
 
 // That class is emplements main functional
 class Transaction : public ITransactions {
  private:
   double balance;
-  const string TRANSACTIONFILE = "Transactions.txt";
-  const string BALANCEFILE = "Balance.txt";
+  const string TRANSACTIONFILE = "src/Bank/Transaction.txt";
+  const string BALANCEFILE = "src/Bank/Balance.txt";
   string transaction;
   string warning;
   FileManager manager;
+  Time time;
 
   double getValidAmount(const string& prompt) const {
     double amount;
@@ -43,7 +45,7 @@ class Transaction : public ITransactions {
     balance += amount;
     FileManager::writeFile(BALANCEFILE, balance);
     FileManager::writeFile(
-        TRANSACTIONFILE, format("You added to the balance: {}", amount), true);
+        TRANSACTIONFILE, format("You added to the balance: {}: {}", amount, time.getTime()), true);
   }
 
   // Function for take away balance, also records transaction history
@@ -57,7 +59,7 @@ class Transaction : public ITransactions {
     balance -= amount;
     FileManager::writeFile(BALANCEFILE, balance);
     FileManager::writeFile(TRANSACTIONFILE,
-                           format("Taken away from balance: {}", amount), true);
+                           format("Taken away from balance: {}: {}", amount, time.getTime()), true);
   }
   // Function for show balance
   void showBalance() const override { cout << "Balance: " << balance << endl; }
@@ -70,7 +72,7 @@ class Transaction : public ITransactions {
   // Function for clear transaction history
   void clearTransactionHistory() const override {
     FileManager::deleteContentInFile(
-        TRANSACTIONFILE, "Do you wont to delete transaction history? ",
+        TRANSACTIONFILE, "Do you wont to delete transaction history(yes or no)? ",
         "Transaction history clear ");
   }
   // Check if transaction file is empty

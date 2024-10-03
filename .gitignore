@@ -5,3 +5,7 @@ CMakePresets.json
 .clang-tidyy
 .clangd
 a.exe
+vector.h
+programs/
+tests.py
+program.exe

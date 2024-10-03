@@ -16,7 +16,7 @@ class Interface {
   unique_ptr<IBankAccount> bank;
 
  public:
-  Interface(unique_ptr<IBankAccount> bank) : bank(move(bank)) {}
+  Interface(unique_ptr<IBankAccount> bank) : bank(std::move(bank)) {}
   void showInterface() {
     char choice;
     int tries = 0;

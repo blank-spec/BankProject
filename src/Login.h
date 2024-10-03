@@ -9,7 +9,7 @@ using namespace std;
 // That class manages login
 class Login : public ILogin {
  private:
-  const string FILENAME = "Loggin.txt";
+  const string FILENAME = "src/Bank/Login.txt";
   string login;
 
   // That function make login, if it doesn't exists

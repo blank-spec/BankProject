@@ -18,7 +18,7 @@ class PasswordManager : public IPassword {
  private:
   string password;
   string salt;
-  const string FILENAME = "Password.txt";
+  const string FILENAME = "src/Bank/Password.txt";
   Hasher::HashData hasher;
   FileManager manager;
 
